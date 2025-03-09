@@ -1,0 +1,118 @@
+@model Tools.Models.ChineseLunarCalendarModel
+
+@{
+    ViewData["Title"] = "Chinese Lunar Calendar";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1 class="text-center">Chinese Lunar Calendar</h1>
+            <div class="text-center">
+                <h3>@Model.MonthTitle</h3>
+                <p>
+                    <strong>Gregorian Date:</strong> @Model.GregorianDate.ToString("D")<br />
+                    <strong>Lunar Date:</strong> Year @Model.LunarYear, Month @Model.LunarMonth, Day @Model.LunarDay
+                    @(Model.IsLeapMonth ? " (Leap Month)" : "")<br />
+                    <strong>Animal Sign:</strong> @Model.AnimalSign<br />
+                    <strong>Month Name:</strong> @Model.MonthName
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form asp-action="Lunar" method="get" class="form-inline justify-content-center">
+                <div class="form-group mx-2">
+                    <label for="date" class="mr-2">Change Date:</label>
+                    <input type="date" id="date" name="date" class="form-control" value="@Model.GregorianDate.ToString("yyyy-MM-dd")" />
+                </div>
+                <button type="submit" class="btn btn-primary mx-2">Update Calendar</button>
+                <a asp-action="Index" class="btn btn-secondary mx-2">Back to Calendar Tools</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="calendar-container">
+                <table class="table table-bordered calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var week in Model.CalendarWeeks)
+                        {
+                            <tr>
+                                @foreach (var day in week)
+                                {
+                                    <td class="@(day.IsCurrentMonth ? "" : "text-muted") @(day.IsToday ? "bg-info text-white" : "") @(day.IsWeekend && day.IsCurrentMonth ? "text-danger" : "")">
+                                        <div class="gregorian-day">@day.Day</div>
+                                        <div class="lunar-day">@day.LunarDay</div>
+                                        @if (day.IsHoliday)
+                                        {
+                                            <div class="holiday-name">@day.HolidayName</div>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .calendar-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    
+    .calendar-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    
+    .calendar-table th {
+        text-align: center;
+        background-color: #f8f9fa;
+    }
+    
+    .calendar-table td {
+        height: 80px;
+        vertical-align: top;
+        padding: 5px;
+        position: relative;
+    }
+    
+    .gregorian-day {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    
+    .lunar-day {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .holiday-name {
+        font-size: 0.8rem;
+        color: #dc3545;
+        margin-top: 5px;
+    }
+    
+    .text-muted {
+        color: #adb5bd !important;
+    }
+</style> 

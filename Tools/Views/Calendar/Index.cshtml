@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Calendar Tools";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Calendar Tools</h1>
+    <p>Select a calendar tool below:</p>
+    
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Chinese Lunar Calendar</h5>
+                </div>
+                <div class="card-body">
+                    <p>View the Chinese lunar calendar for any date.</p>
+                    
+                    <form asp-action="Lunar" method="get" class="mt-3">
+                        <div class="form-group">
+                            <label for="date">Select Date (defaults to today if empty):</label>
+                            <input type="date" id="date" name="date" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">View Lunar Calendar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
